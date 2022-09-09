@@ -33,7 +33,6 @@ function ExitWithError() {
     exit 1
 }
 
-
 # For each file in the list of arguements,
 # make sure the file exists
 # Create the dockerfile information
@@ -51,13 +50,6 @@ done
 if [ ${#ValidFiles[@]} -eq 0 ]; then
     ExitWithError "no valid files found ..."
 fi
-
-
-# TODO: Create and copy in the script that will run when the container spins up. This
-# should:
-
-# 5. Run the predictor over the files found in the directory (only at the start).
-# 6. pod should close out after this. Make it an entry point (after it is copied here).
 
 # TODO: Add in the the token rather than the id RSA file
 function CreateDockerfile() {
@@ -110,6 +102,8 @@ RUN python3 -m pip install -r predictor/requirements.txt
 
 RUN git config --global user.email "barbacbd@dukes.jmu.edu"
 RUN git config --global user.name "Brent Barbachem"
+
+ENTRYPOINT ["./ExecPods.sh"]
 
 EOF
 }

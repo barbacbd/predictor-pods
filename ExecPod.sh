@@ -43,4 +43,4 @@ if [ ${#DataFiles[@]} -ne 1 ]; then
 fi
 
 # execute the prediction software
-predictor 
+predictor execute -vvvv -d "$ARTIFACTS_DIR"
