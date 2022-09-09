@@ -13,6 +13,8 @@ IMAGE_NAME="predictor"
 FINAL_ARTIFACTS_DIR="artifacts"
 # List of files that were found
 ValidFiles=()
+NumClusters=50
+NumFeatures=2
 
 # Determine if an image already exists.
 # in the event that the user wants a newer version of the image, then
@@ -85,6 +87,8 @@ RUN ssh-keyscan -t rsa github.com >> /root/.ssh/known_hosts
 # Grab the lastest package source.
 RUN git clone git@github.com:barbacbd/predictor.git
 
+# Copy the script over to the container
+COPY ExecPods.sh /ExecPods.sh
 
 # Grab my specific source code for the FEAST project
 # I forked this project (do NOT own it) and have made my modifications
@@ -139,11 +143,9 @@ fi
 
 # change the directory by pushing artifacts dir to the stack
 pushd ${FINAL_ARTIFACTS_DIR}
-
-
 # Do NOT move, will be wrong if moved above the pushd
-CurrPath=$(pwd)
-
+CurDir=`pwd`
+LOG "Current directory set to ${CurDir}"
 
 # [Re]find the image information, as it may not have existed when first executed
 # But it should definitely exist now ...
@@ -157,7 +159,6 @@ fi
 IMAGE=$(echo $ImageToUse | awk '{print $1}')
 TAG=$(echo $ImageToUse | awk '{print $2}')
 LOG "using image: ${IMAGE}:${TAG}"
-
 
 # For each valid file, create a container and run the
 # all necessary scripts to create the output for the container
@@ -186,6 +187,77 @@ do
 
 	LOG "creating directory: ${DirName}"
 	mkdir "${DirName}"
+
+	LOG "creating ${DirName}/configuration.yaml"
+	LOG "Number of clusters: ${NumClusters}"
+	LOG "Number of features: ${NumFeatures}"
+	cat <<EOF >${DirName}/configuration.yaml
+cluster_algorithms:
+- K_MEANS
+crit_algorithms:
+- Ball_Hall
+- Banfeld_Raftery
+- C_index
+- Calinski_Harabasz
+- Davies_Bouldin
+- Det_Ratio
+- Dunn
+- Gamma
+- G_plus
+- Ksq_DetW
+- Log_Det_Ratio
+- Log_SS_Ratio
+- McClain_Rao
+- PBM
+- Point_Biserial
+- Ray_Turi
+- Ratkowsky_Lance
+- Scott_Symons
+- SD_Scat
+- SD_Dis
+- S_Dbw
+- Silhouette
+- Tau
+- Trace_W
+- Trace_WiB
+- Wemmert_Gancarski
+- Xie_Beni
+extras:
+  beta: 1.0
+  gamma: 1.0
+  init: k-means++
+filenames: ${filename}
+max_number_of_clusters: ${NumClusters}
+number_of_features: ${NumFeatures}
+selected_features:
+- CMIM
+- discCMIM
+- BetaGamma
+- discBetaGamma
+- CondMI
+- discCondMI
+- DISR
+- discDISR
+- ICAP
+- discICAP
+- JMI
+- discJMI
+- MIM
+- discMIM
+- mRMR_D
+- disc_mRMR_D
+- weightedCMIM
+- discWeightedCMIM
+- weightedCondMI
+- discWeightedCondMI
+- weightedDISR
+- discWeightedDISR
+- weightedJMI
+- discWeightedJMI
+- weightedMIM
+- discWeightedMIM
+
+EOF
 
 	# this directory will serve as the location that will hold the artifacts
 	# for a particular run. This directory will also contain the original data/
