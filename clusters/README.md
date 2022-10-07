@@ -49,3 +49,19 @@ The following options are from the example above.
 - The `/output/{file}` option that is provided to `/Clusters` where the file name must exist in the output directory specified in the `-v` option. _This file must be a text file_.
 - The min and max k values are the min and max number of clusters respectively to create (each value is a new run of clustering).
 - The algorithm, `-a`, can be any of algorithms mentioned above (K_MEANS, X_BINS, E_BINS, NATURAL_BREAKS).
+
+## Output
+
+The output of the container will be a json file with the same name as the original text file in the same directory. The json file will contain the original dataset with a tag `data`. The json file will also contain a tag `clusters`. The data contained in clusters will be in order from `min_k` to `max_k`. A list of lists that contain the cluster number for the subsequent data point from the original dataset when clustered using a value of `k`.
+
+```json
+{
+    "data": [
+
+    ],
+    "clusters": [
+        [
+	],
+    ]
+}
+```
