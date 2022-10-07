@@ -21,4 +21,4 @@ jobs:
     - name: Install podman
       run: sudo apt-get -y install podman
     - name: Build the Docker image
-      run: podman build . -t clusters:citest
+      run: pushd clusters && podman build . -t clusters:citest && popd
