@@ -1,0 +1,24 @@
+name: Clusters Docker
+
+on:
+  push:
+    branches: [ "main" ]
+    paths: ['clusters/**']
+  pull_request:
+    branches: [ "main" ]
+    paths: ['clusters/**']
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Update all packages
+      run: sudo apt-get -y update
+    - name: Install podman
+      run: sudo apt-get -y install podman
+    - name: Build the Docker image
+      run: podman build . -t clusters:citest
