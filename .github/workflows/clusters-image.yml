@@ -3,10 +3,10 @@ name: Clusters Docker
 on:
   push:
     branches: [ "main" ]
-    paths: ['clusters/**']
+#    paths: ['clusters/**']
   pull_request:
     branches: [ "main" ]
-    paths: ['clusters/**']
+#    paths: ['clusters/**']
 
 jobs:
 
