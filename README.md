@@ -9,6 +9,8 @@
 </h1>
 
 
+[![Clusters Docker](https://github.com/barbacbd/predictor-pods/actions/workflows/clusters-image.yml/badge.svg)](https://github.com/barbacbd/predictor-pods/actions/workflows/clusters-image.yml)
+
 The project contains the instructions and scripts for creating the [docker](https://www.docker.com/) or [podman](https://podman.io/) release pods for predictor. The pods will be used for batching runs of the predictor software on several input files. The entire predictor process can take a long
 (unspecified) amout of time. The goal of this project is to reduce the overhead and time to execute the runs.
 
