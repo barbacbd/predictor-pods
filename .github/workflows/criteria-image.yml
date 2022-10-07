@@ -1,0 +1,24 @@
+name: Criteria Docker
+
+on:
+  push:
+    branches: [ "main" ]
+#    paths: ['criteria/**']
+  pull_request:
+    branches: [ "main" ]
+#    paths: ['criteria/**']
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Update all packages
+      run: sudo apt-get -y update
+    - name: Install podman
+      run: sudo apt-get -y install podman
+    - name: Build the Docker image
+      run: pushd criteria && podman build . -t criteria:citest && popd
