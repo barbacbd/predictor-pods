@@ -23,17 +23,19 @@
 from fedora:latest
 MAINTAINER "barbacbd@dukes.jmu.edu"
 
+ARG build
+
 # Update all packages
 RUN dnf update -y
 
 RUN dnf install -y \
     python3-devel \
     python3-pip \
-    git \
-    emacs \
-    vim \
     gcc \
     gcc-c++
+
+RUN if [[ ! -z "$build" ]] && [[ "$build" == "devel" ]]; then dnf install -y git emacs vim ; echo "$build"; fi
+
 
 # upgrade pip
 RUN python3 -m pip install pip --upgrade
