@@ -47,5 +47,5 @@ RUN python3 -m pip install jenkspy kmeans1d numpy pandas scipy sklearn
 COPY ./Clusters /Clusters
 
 # Expected use:
-# Clusters {file} -a K_MEANS --min_k 2 --max_k 50
+# Clusters {file} -a E_BINS --min_k 2 --max_k 50
 CMD ["/Clusters"]
