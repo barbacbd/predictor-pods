@@ -41,7 +41,7 @@ RUN if [[ ! -z "$build" ]] && [[ "$build" == "devel" ]]; then dnf install -y git
 RUN python3 -m pip install pip --upgrade
 
 # install the latest package for cluster-crit
-RUN python3 -m pip install jenkspy kmeans1d numpy pandas scipy sklearn
+RUN python3 -m pip install jenkspy kmeans1d numpy pandas scipy scikit-learn
 
 # copy over the executable that will run the Internal Criteria algorithm(s)
 COPY ./Clusters /Clusters
